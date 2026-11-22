@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1525">
+<title>Мои калькуляторы</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"SF Pro Display",sans-serif;--bg:#0d1525;--panel:#192539;--line:#304057;--text:#f3f7ff;--muted:#a6b5cb;--accent:#74b6ff}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(circle at 20% 0%,#233a58 0,transparent 38%),var(--bg);color:var(--text)}
+.shell{max-width:540px;margin:auto;padding:env(safe-area-inset-top) 18px calc(env(safe-area-inset-bottom) + 36px)}
+header{padding:30px 0 20px}.eyebrow{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:750}h1{font-size:32px;letter-spacing:-1px;margin:8px 0}header p{color:var(--muted);margin:0;font-size:14px;line-height:1.5}
+.tabs{display:flex;gap:8px;margin:10px 0 20px}.tab{border:1px solid var(--line);border-radius:14px;padding:12px 15px;background:#172337;color:var(--muted);font-weight:700;flex:1;font-size:14px}.tab.active{background:#28578c;color:white;border-color:#3c7ec0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 14px 50px #0002}h2{font-size:21px;letter-spacing:-.5px;margin:0 0 7px}.hint{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 20px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 11px}.field label{display:block;font-size:12px;color:#bed0e6;margin-bottom:8px;min-height:32px;line-height:1.35;font-weight:650}.field input{appearance:none;display:block;width:100%;background:#0d182a;color:white;border:1px solid #415471;border-radius:12px;padding:14px 10px;font-size:22px;font-weight:700;outline:none;min-width:0}.field input:focus{border-color:var(--accent);box-shadow:0 0 0 2px #74b6ff33}
+.result{background:linear-gradient(120deg,#225081,#163a62);border:1px solid #3975a9;border-radius:18px;padding:22px;margin-top:21px;text-align:center}.result small{display:block;font-size:13px;color:#d5e8ff;margin-bottom:8px}.result strong{font-size:43px;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}.result .unit{font-size:18px;color:#d5e8ff;font-weight:700;margin-left:5px}.invalid{color:#ffb9b9;font-size:13px;margin-top:10px;min-height:18px;text-align:center}
+.actions{display:flex;gap:10px;margin-top:16px}button{cursor:pointer} .action{flex:1;background:#26364c;color:#ecf4ff;border:1px solid #405473;padding:12px;border-radius:12px;font-weight:700;font-size:13px}.action.primary{background:#d9eaff;color:#102947;border-color:#d9eaff}
+.info{font-size:12px;line-height:1.65;color:var(--muted);margin:18px 3px 0}.note{margin-top:15px;padding:16px;background:#132139;border:1px dashed #416087;border-radius:15px;color:#bfd2e8;font-size:13px;line-height:1.6}
+.empty{font-size:45px;margin:10px 0}.hide{display:none!important}footer{padding-top:22px;font-size:11px;color:#849ab6;text-align:center;line-height:1.55}@media(max-width:365px){.shell{padding-left:12px;padding-right:12px}.panel{padding:15px}.field input{font-size:19px}}
+</style></head>
+<body><main class="shell">
+<header><div class="eyebrow">Личный набор инструментов</div><h1>Мои калькуляторы</h1><p>Быстрые подсчёты без таблиц и лишних приложений.</p></header>
+<nav class="tabs" aria-label="Разделы"><button class="tab active" data-page="carbs" aria-current="page">🍚 Углеводы</button><button class="tab" data-page="more">＋ Другие расчёты</button></nav>
+<section id="carbs" class="panel"><h2>Углеводы в порции</h2><p class="hint">Считаем углеводы после варки или приготовления, учитывая изменение веса от воды.</p>
+<div class="fields">
+<div class="field"><label for="carb100">Углеводы на 100 г продукта</label><input id="carb100" type="text" inputmode="decimal" value="35" autocomplete="off" aria-label="Углеводы на 100 граммов"></div>
+<div class="field"><label for="before">Вес продукта до приготовления, г</label><input id="before" type="text" inputmode="decimal" value="450" autocomplete="off"></div>
+<div class="field"><label for="portion">Вес твоей порции, г</label><input id="portion" type="text" inputmode="decimal" value="200" autocomplete="off"></div>
+<div class="field"><label for="after">Вес готового продукта, г</label><input id="after" type="text" inputmode="decimal" value="900" autocomplete="off"></div>
+</div>
+<div class="result" aria-live="polite"><small>Углеводы в твоей порции</small><strong id="answer">35</strong><span class="unit">г</span></div><div class="invalid" id="error" role="status"></div>
+<div class="actions"><button class="action primary" id="copy">Скопировать результат</button><button class="action" id="reset">Сбросить</button></div>
+<p class="info"><b>Формула:</b> углеводы на 100 г × исходный вес × вес порции ÷ (100 × вес всего готового продукта).</p>
+<div class="note">⚠️ Если добавляешь продукты с углеводами (например, соус или сахар), их надо учитывать отдельно. Этот расчёт не определяет дозу инсулина.</div>
+</section>
+<section id="more" class="panel hide"><div class="empty">🧮</div><h2>Здесь будут новые расчёты</h2><p class="hint">Этот интерфейс сделан как набор калькуляторов. Можно добавить расчёт КБЖУ, коэффициента приготовления, порций и другие инструменты в следующих версиях файла.</p><div class="note">Когда понадобится новый калькулятор, можно обновить эту HTML-страницу, не меняя её основной дизайн.</div></section>
+<footer>Работает без интернета после сохранения файла.<br>Значения сохраняются на этом устройстве, если браузер разрешает локальное хранилище.</footer></main>
+<script>
+(function(){
+const ids=['carb100','before','portion','after'];const fields=ids.map(x=>document.getElementById(x));const defaults=['35','450','200','900'];let current='';
+try{const raw=localStorage.getItem('foodcalc-v1');if(raw){let a=JSON.parse(raw);if(Array.isArray(a)&&a.length===4)fields.forEach((e,i)=>e.value=String(a[i]));}}catch(e){}
+const num=s=>Number(s.trim().replace(/\s/g,'').replace(',','.'));
+const format=n=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:1}).format(n);
+function update(){let ss=fields.map(x=>x.value),n=ss.map(num);let valid=ss.every((s,i)=>s.trim()!==''&&Number.isFinite(n[i])&&n[i]>=0)&&n[3]>0&&n[2]<=n[3];let ans=document.getElementById('answer'),err=document.getElementById('error');current=valid?format(n[0]*n[1]*n[2]/(100*n[3])):'';ans.textContent=valid?current:'—';err.textContent=valid?'':'Проверь числа: вес готового продукта должен быть больше 0, а порция не больше общего веса.';document.getElementById('copy').disabled=!valid;try{localStorage.setItem('foodcalc-v1',JSON.stringify(ss))}catch(e){}
+}
+fields.forEach(f=>f.addEventListener('input',update));document.getElementById('reset').addEventListener('click',()=>{fields.forEach((f,i)=>f.value=defaults[i]);update()});document.getElementById('copy').addEventListener('click',async()=>{if(!current)return;try{await navigator.clipboard.writeText(current+' г углеводов');const btn=document.getElementById('copy');btn.textContent='Скопировано ✓';setTimeout(()=>btn.textContent='Скопировать результат',1400)}catch(e){const el=document.getElementById('answer');const r=document.createRange();r.selectNodeContents(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r)}});
+document.querySelectorAll('[data-page]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-page]').forEach(b=>{b.classList.toggle('active',b===btn);b.setAttribute('aria-current',b===btn?'page':'false')});document.getElementById('carbs').classList.toggle('hide',btn.dataset.page!=='carbs');document.getElementById('more').classList.toggle('hide',btn.dataset.page!=='more')}));update();
+})();
+</script></body></html>
